@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>五福堂主 · 孙勇个人博客</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg: #faf6ed;
+  --card: #fffdf7;
+  --text: #3d3226;
+  --sub: #8c7b6a;
+  --gold: #b8860b;
+  --red: #8b1a1a;
+  --border: #e5d9c5;
+  --tag-bg: #f0e6d3;
+  --tag-text: #6b5a3e;
+  --shadow: 0 2px 16px rgba(139, 119, 90, 0.08);
+  --ink: #2c2416;
+  --accent: #9b6b1e;
+}
+
+body {
+  font-family: "Noto Serif SC", "STSong", "SimSun", "Songti SC", "KaiTi", "楷体", serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.9;
+  min-height: 100vh;
+  background-image: 
+    radial-gradient(ellipse at 15% 10%, rgba(184,134,11,0.03) 0%, transparent 60%),
+    radial-gradient(ellipse at 85% 90%, rgba(139,26,26,0.02) 0%, transparent 60%);
+}
+
+/* ===== 顶部导航 ===== */
+.top-bar {
+  background: linear-gradient(180deg, rgba(45,36,22,0.97) 0%, rgba(45,36,22,0.95) 100%);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid var(--gold);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+}
+
+.top-bar-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 60px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.brand .seal {
+  width: 38px; height: 38px;
+  background: var(--red);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-family: "KaiTi","楷体",serif;
+  border-radius: 4px;
+  writing-mode: vertical-rl;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.brand-text .name {
+  font-size: 15px;
+  color: #e8d5a3;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.brand-text .sub {
+  font-size: 11px;
+  color: #887a64;
+  letter-spacing: 2px;
+}
+
+.nav-links { display:flex; gap: 8px; }
+
+.nav-links a {
+  color: #c4b896;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 4px;
+  transition: all 0.3s;
+  letter-spacing: 1px;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--gold);
+  background: rgba(184,134,11,0.1);
+}
+
+/* ===== 主容器 ===== */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* ===== Hero区 ===== */
+.hero {
+  text-align: center;
+  padding: 60px 20px 40px;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 20px; left: 50%;
+  transform: translateX(-50%);
+  width: 1px; height: 80px;
+  background: linear-gradient(180deg, transparent, var(--gold), transparent);
+  opacity: 0.5;
+}
+
+.hero .seal-lg {
+  width: 70px; height: 70px;
+  background: var(--red);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-family: "KaiTi","楷体",serif;
+  border-radius: 6px;
+  writing-mode: vertical-rl;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: 32px;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: 3px;
+  font-weight: normal;
+}
+
+.hero .tagline {
+  font-size: 14px;
+  color: var(--sub);
+  letter-spacing: 4px;
+}
+
+.hero .divider {
+  width: 60px; height: 2px;
+  background: var(--gold);
+  margin: 24px auto;
+  opacity: 0.6;
+}
+
+/* ===== 文章列表 ===== */
+.post-list { margin-top: 20px; }
+
+.post-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.post-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--gold);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.post-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(139,119,90,0.15);
+  border-color: var(--gold);
+}
+
+.post-card:hover::before { opacity: 1; }
+
+.post-card .meta {
+  font-size: 12px;
+  color: var(--sub);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-card .meta .dot {
+  width: 4px; height: 4px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+
+.post-card h2 {
+  font-size: 20px;
+  color: var(--ink);
+  margin-bottom: 10px;
+  font-weight: normal;
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+
+.post-card .excerpt {
+  font-size: 14px;
+  color: var(--sub);
+  line-height: 1.8;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-card .tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  display: inline-block;
+  padding: 3px 12px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  font-size: 12px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.tag:hover {
+  background: var(--gold);
+  color: #fff;
+}
+
+/* ===== 标签筛选栏 ===== */
+.tag-filter {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.tag-filter .filter-btn {
+  padding: 5px 16px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+
+.tag-filter .filter-btn:hover,
+.tag-filter .filter-btn.active {
+  background: var(--gold);
+  color: #fff;
+  border-color: var(--gold);
+}
+
+/* ===== 文章详情 ===== */
+.article-detail {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.article-header {
+  text-align: center;
+  padding: 50px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 40px;
+}
+
+.article-header h1 {
+  font-size: 28px;
+  color: var(--ink);
+  margin-bottom: 16px;
+  font-weight: normal;
+  letter-spacing: 2px;
+  line-height: 1.5;
+}
+
+.article-header .article-meta {
+  font-size: 13px;
+  color: var(--sub);
+  letter-spacing: 2px;
+}
+
+.article-header .article-tags {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.article-content {
+  font-size: 16px;
+  line-height: 2;
+  color: var(--text);
+}
+
+.article-content h2 {
+  font-size: 22px;
+  color: var(--ink);
+  margin: 40px 0 16px;
+  font-weight: normal;
+  letter-spacing: 1px;
+  padding-left: 12px;
+  border-left: 3px solid var(--gold);
+}
+
+.article-content h3 {
+  font-size: 18px;
+  color: var(--ink);
+  margin: 30px 0 12px;
+  font-weight: normal;
+}
+
+.article-content p {
+  margin-bottom: 18px;
+  text-indent: 2em;
+}
+
+.article-content ul, .article-content ol {
+  margin: 12px 0 18px 2em;
+}
+
+.article-content li {
+  margin-bottom: 6px;
+}
+
+.article-content blockquote {
+  margin: 24px 0;
+  padding: 16px 24px;
+  background: rgba(184,134,11,0.05);
+  border-left: 3px solid var(--gold);
+  color: #6b5a3e;
+  font-style: italic;
+  border-radius: 0 6px 6px 0;
+}
+
+.article-content blockquote p {
+  margin: 0;
+  text-indent: 0;
+}
+
+.article-content code {
+  background: #f0e6d3;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-family: "Consolas","Monaco",monospace;
+}
+
+.article-content pre {
+  background: #2c2416;
+  color: #e8d5a3;
+  padding: 20px 24px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 20px 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.article-content pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.article-content img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin: 20px 0;
+  display: block;
+}
+
+.article-content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 40px 0;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.back-link:hover { color: var(--accent); }
+
+/* ===== 关于页面 ===== */
+.about-page {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.about-hero {
+  text-align: center;
+  padding: 60px 20px 40px;
+}
+
+.about-hero .seal-xl {
+  width: 90px; height: 90px;
+  background: var(--red);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  font-family: "KaiTi","楷体",serif;
+  border-radius: 6px;
+  writing-mode: vertical-rl;
+  line-height: 1;
+  margin-bottom: 24px;
+}
+
+.about-hero h1 {
+  font-size: 30px;
+  color: var(--ink);
+  letter-spacing: 3px;
+  font-weight: normal;
+}
+
+.about-hero .sub-info {
+  font-size: 14px;
+  color: var(--sub);
+  margin-top: 8px;
+  letter-spacing: 2px;
+}
+
+.about-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+.about-card h3 {
+  font-size: 18px;
+  color: var(--gold);
+  margin-bottom: 16px;
+  font-weight: normal;
+  letter-spacing: 2px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.about-card .info-row {
+  display: flex;
+  padding: 8px 0;
+  border-bottom: 1px dotted var(--border);
+  font-size: 15px;
+}
+
+.about-card .info-row:last-child { border-bottom: none; }
+
+.about-card .info-label {
+  width: 80px;
+  color: var(--sub);
+  flex-shrink: 0;
+}
+
+.about-card .info-value {
+  color: var(--text);
+}
+
+.about-card .intro-text {
+  font-size: 15px;
+  line-height: 2;
+  color: var(--text);
+}
+
+.about-card .intro-text p {
+  text-indent: 2em;
+  margin-bottom: 12px;
+}
+
+.about-card .intro-text p:last-child { margin-bottom: 0; }
+
+/* ===== 页脚 ===== */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--sub);
+  font-size: 12px;
+  letter-spacing: 2px;
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+}
+
+.footer .stamp {
+  color: var(--gold);
+  font-family: "KaiTi","楷体",serif;
+  font-size: 16px;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+
+/* ===== 空白状态 ===== */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--sub);
+}
+
+.empty-state .icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+  .top-bar-inner {
+    padding: 0 16px;
+    height: 52px;
+  }
+
+  .brand .seal { width: 30px; height: 30px; font-size: 14px; }
+  .brand-text .name { font-size: 13px; }
+  .brand-text .sub { font-size: 10px; }
+  .nav-links a { font-size: 12px; padding: 4px 10px; }
+
+  .hero h1 { font-size: 24px; }
+  .post-card { padding: 20px; }
+  .post-card h2 { font-size: 17px; }
+  .article-header h1 { font-size: 22px; }
+  .article-content { font-size: 15px; }
+  .about-card { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<nav class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <div class="brand" onclick="navigate('home')">
+      <div class="seal">孙</div>
+      <div class="brand-text">
+        <div class="name">五福堂主</div>
+        <div class="sub">怀鱼·博客</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#home" class="active" data-nav="home">文章</a>
+      <a href="#tags" data-nav="tags">分类</a>
+      <a href="#about" data-nav="about">关于</a>
+    </div>
+  </div>
+</nav>
+
+<!-- 主内容区 -->
+<div class="container" id="app"></div>
+
+<footer class="footer">
+  <div class="stamp">五福堂主</div>
+  <div>深圳利和艺术馆 &copy; 2026</div>
+  <div style="margin-top:4px;">鉴古知今 · 以艺会友</div>
+</footer>
+
+<script>
+// ===== Markdown 配置 =====
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+});
+
+// ===== 文章数据 =====
+const articles = [
+  {
+    id: 1,
+    title: '青铜器鉴定入门：从锈色辨真伪',
+    date: '2026-06-28',
+    tags: ['青铜器', '鉴定'],
+    excerpt: '青铜器的锈色是鉴定真伪的第一道门槛。本文从绿锈、红锈、蓝锈的形成机理入手，结合三十年实战经验，梳理出一套可操作的锈色鉴别方法。',
+    content: `
+## 引言
+
+青铜器鉴定，首重锈色。古人云"千年古铜，万年锈蚀"，锈色是时光在青铜器上留下的指纹，每一层铜绿都诉说着一段被掩埋的历史。
+
+## 锈色的形成机理
+
+青铜器埋藏于地下，铜与土壤中的水、氧气、二氧化碳及各类盐分发生复杂的化学反应，形成不同颜色的锈蚀产物。
+
+### 绿锈（碱式碳酸铜）
+
+绿锈是最常见的青铜器锈色，主要成分为碱式碳酸铜。天然绿锈呈现出层次分明的结晶结构，在放大镜下可见细密的晶体颗粒，颜色从翠绿到墨绿不等，过渡自然。
+
+### 红锈（氧化亚铜）
+
+红锈又称"枣皮红"，是青铜器在缺氧环境下形成的氧化亚铜层。真正的红锈紧贴器表，坚硬致密，色泽温润如同陈年红枣皮。
+
+### 蓝锈（碱式硫酸铜）
+
+蓝锈较为罕见，多出现在南方潮湿墓葬中。天然蓝锈如蓝宝石般晶莹，有"孔雀蓝"之美誉。
+
+## 实战鉴别要点
+
+1. **看层次**：真锈有底锈和浮锈之分，层次分明，过渡自然；伪锈往往单一均匀。
+2. **摸手感**：真锈坚硬牢固，用指甲难以刮落；伪锈松散易掉。
+3. **闻气味**：真锈无特殊气味；化学做旧常有刺鼻酸味。
+4. **火烧法**：取微量锈末置于酒精灯上，真锈不变色，伪锈变黑或融化。
+
+## 结语
+
+鉴定之道，贵在多看真品、积累经验。锈色仅是入门之阶，需结合器型、纹饰、铭文、铸造工艺等多维度综合判断，方能去伪存真。
+    `,
+  },
+  {
+    id: 2,
+    title: '深圳古玩市场三十年变迁',
+    date: '2026-06-20',
+    tags: ['市场观察', '深圳'],
+    excerpt: '从罗湖新秀古玩城的落地到如今深圳古玩生态的成熟，三十年风云变幻，见证了这座城市收藏文化的崛起与蜕变。',
+    content: `
+## 缘起
+
+深圳，这座年轻的城市，用三十年走完了许多古都三百年的收藏之路。作为亲历者，我想记录这段值得铭记的历史。
+
+## 八十年代末至九十年代初：萌芽期
+
+彼时的深圳古玩交易，不过是东门老街上的零星地摊。卖主多为来自内地的小贩，货品以清末民初的民窑瓷器、旧家具为主，价格低廉，几元至几十元不等。买家多为早期来深的港商和好奇的本地居民。
+
+## 九十年代中期至2000年：成长期
+
+随着深圳经济的腾飞，一批有实力的收藏家开始浮现。1995年前后，罗湖新秀片区逐渐形成了古玩集散地。各地的古玩商贩闻风而至，市场品类大为丰富——青铜器、玉器、书画、家具，应有尽有。
+
+## 2000年至今：成熟期
+
+进入新世纪，深圳古玩市场完成了从"地摊经济"到"专业市场"的转型。罗湖新秀古玩城、深圳古玩城等专业市场相继落成，拍卖行、鉴定机构、艺术品金融等配套服务日趋完善。
+
+深圳也涌现出一批具有国际视野的收藏家，他们不再满足于"捡漏"，而是深入研究、系统收藏，推动了整个行业的专业化进程。
+
+## 展望
+
+深圳的古玩市场已经从一个单纯的交易场所，演变成为一个集收藏、研究、展览、教育于一体的文化生态圈。利和艺术馆正是在这样的时代背景下应运而生，致力于为深圳乃至粤港澳大湾区的收藏文化添砖加瓦。
+    `,
+  },
+  {
+    id: 3,
+    title: '书法创作中的"气"与"韵"',
+    date: '2026-06-12',
+    tags: ['书法', '艺术理论'],
+    excerpt: '书法之妙，不在形似，而在于"气韵生动"。本文探讨如何在线条流转之间注入生命气息，让笔墨成为心灵的延伸。',
+    content: `
+## 气韵之说
+
+南朝谢赫在《古画品录》中提出"六法"，首重"气韵生动"。此论虽为画论，用于书法亦然。书法之气韵，是贯通全篇的生命律动，是书者精神气质在纸面上的投射。
+
+## 何谓"气"
+
+"气"是书法的内在动力。观王羲之《兰亭序》，通篇二十八个"之"字无一雷同，章法如行云流水，一气呵成，这便是"气"的体现。
+
+养气之法有三：
+
+1. **读书养气**：苏东坡云"腹有诗书气自华"，深厚的学养是书法之气的不竭源泉。
+2. **静坐调息**：下笔之前，先调匀呼吸，让心归于平静，让气沉于丹田。
+3. **持之以恒**：每日临池不辍，久而久之，笔墨之间自然有了一股贯通之气。
+
+## 何谓"韵"
+
+"韵"是书法的外在风神。它超越了点画结构的层面，是一种只可意会、难以言传的美感。王献之的潇洒、颜真卿的雄浑、米芾的跌宕，各具其韵。
+
+得韵之道：
+
+- **取法乎上**：取法古人经典，但不可一味模仿，要有所取舍，化为己用。
+- **意在笔先**：下笔之前，胸中已有全篇的风神气度，而非逐字拼凑。
+- **收放自如**：书法贵在变化，大胆落墨，小心收拾，在奔放中见法度，在严谨中见灵动。
+
+## 气与韵的关系
+
+气为内，韵为外；气为骨，韵为肉。有气无韵则生硬刻板，有韵无气则浮华空洞。气韵兼备，方能成就一幅好字。
+
+此中三昧，非数十载笔墨功夫不能悟也。
+    `,
+  },
+  {
+    id: 4,
+    title: '艺术品投资的"三看"原则',
+    date: '2026-06-05',
+    tags: ['投资', '艺术市场'],
+    excerpt: '艺术品投资不同于股票房产，需要独特的眼光和深厚的学养。三十年投资心得，凝练为"看真、看精、看势"六字箴言。',
+    content: `
+## 引言
+
+艺术品市场水深，这是业内的共识。然而水虽深，有舟可渡。这叶"舟"，便是我从业三十年总结出的"三看"原则。
+
+## 一看"真"
+
+"真"是艺术品投资的基石。买到赝品，一切归零。
+
+如何确保"真"：
+
+1. **来源清晰**：优先选择有明确出版著录、展览记录的藏品。
+2. **专家掌眼**：重大投资务必请多位独立专家交叉鉴定。
+3. **科技辅助**：善用X光、热释光、碳十四等科技手段辅助判断。
+4. **不贪便宜**：远低于市场价的"漏"，十有八九是陷阱。
+
+## 二看"精"
+
+"精"决定了藏品的升值空间。同一位画家的作品，精品与应酬之作的价格可以相差十倍甚至百倍。
+
+判断"精"的标准：
+
+- 是否为艺术家的代表作或巅峰期作品
+- 是否在重要展览中展出过
+- 品相是否完好，有无修复痕迹
+- 题材是否属于艺术家的拿手领域
+
+## 三看"势"
+
+"势"是对市场趋势的判断。再好的藏品，如果买在市场最高点，短期也难获利。
+
+把握"势"的要点：
+
+- 关注宏观经济周期与艺术市场的关联
+- 研究各板块的轮动规律（书画、瓷器、青铜、当代艺术等）
+- 留意新生代藏家的审美偏好变化
+- 耐心等待，不要追高买入
+
+## 结语
+
+艺术品投资，终究是一场考验眼力、定力和耐心的马拉松。守住"看真、看精、看势"的原则，方能在风云变幻的市场中立于不败之地。
+    `,
+  },
+  {
+    id: 5,
+    title: '古玩行里的那些"行话"',
+    date: '2026-05-28',
+    tags: ['收藏文化', '趣谈'],
+    excerpt: '古玩行里的行话，既是术语也是暗号，是入行的第一道门槛。从"开门"到"打眼"，带你领略这门独特的行业语言。',
+    content: `
+## 行话的由来
+
+古玩行的行话，源远流长。旧时古玩商为保护商业秘密、辨别同行身份，创造了一套独特的行业用语。这些行话幽默生动，凝聚了数代古玩人的智慧。
+
+## 常见行话释义
+
+### 开门/开门见山
+
+指一件藏品真伪一目了然，特征明显，无需争议。如："这件宣德炉大开门，谁看了都说真。"
+
+### 打眼
+
+指看走眼，将赝品当成了真品。是每个收藏家都不愿承认却又难以完全避免的经历。
+
+### 捡漏
+
+以远低于市场价值的价格买到真品好货。捡漏的前提是眼光独到、知识储备充足。
+
+### 吃药
+
+同"打眼"，意指买到假货。"这药吃得可不轻"——表示损失惨重。
+
+### 有一眼
+
+指某件藏品乍看之下有些意思，值得进一步细看研究。这是一种谨慎的初步认可。
+
+### 让
+
+古玩行的买卖不说"卖"，说"让"。"这件您能让给我吗？"
+
+### 大新活
+
+外表华丽、实质粗糙的新仿品，专骗外行的"行活"。
+
+## 行话的文化意义
+
+行话不仅是交流工具，更承载着古玩行业独特的文化基因。它体现了中国人含蓄委婉的社交智慧，也反映了古玩行"真真假假、虚实相生"的特殊行业生态。
+    `,
+  },
+  {
+    id: 6,
+    title: '明代宣德炉的鉴赏要点',
+    date: '2026-05-20',
+    tags: ['青铜器', '鉴赏'],
+    excerpt: '宣德炉被誉为"文房之首"，明代宣德年间铸造的铜炉，至今仍是藏家追逐的珍品。本文从形制、皮色、款识三个维度解析鉴赏要点。',
+    content: `
+## 宣德炉的历史地位
+
+明宣德三年（1428年），宣宗朱瞻基命工部以暹罗进贡的风磨铜精铸铜炉，共计三千余件。这批铜炉用料精良、铸造考究、形制典雅，被后世誉为"宣德炉"，成为历代文人的案头至宝。
+
+## 鉴赏三要素
+
+### 一、形制
+
+宣德炉的形制极为丰富，常见的有：
+
+- **冲耳炉**：双耳朝天，器型端庄，最具代表性
+- **蚰耳炉**：双耳下垂如蚰蜒，线条优美
+- **鬲式炉**：仿古代青铜鬲之形，古朴厚重
+- **筒式炉**：器身如筒，简洁大方
+
+### 二、皮色
+
+宣德炉最迷人之处在于其皮色。经数百年把玩养护，形成温润如玉的包浆。皮色以藏经纸色、栗壳色、棠梨色为上品，鎏金、错银者更为珍贵。
+
+### 三、款识
+
+宣德炉底款多为"大明宣德年制"六字楷书款，阳文铸造，笔画清晰有力。真品款识的字体风格与明代官窑瓷器款识一脉相承。
+
+## 结语
+
+宣德炉收藏，贵在"形、色、款"三者的和谐统一。切莫只盯着一个方面，而要综合考量，方能在众多仿品中慧眼识珍。
+    `,
+  },
+];
+
+// ===== 路由系统 =====
+function getRoute() {
+  const hash = window.location.hash.slice(1) || 'home';
+  const [page, param] = hash.split('/');
+  return { page, param };
+}
+
+function navigate(to) {
+  window.location.hash = to;
+}
+
+// ===== 渲染函数 =====
+function renderHome(activeTag) {
+  let filtered = articles;
+  if (activeTag && activeTag !== 'all') {
+    filtered = articles.filter(a => a.tags.includes(activeTag));
+  }
+
+  // 收集所有标签
+  const allTags = ['all', ...new Set(articles.flatMap(a => a.tags))];
+
+  let html = '';
+
+  // Hero区域 - 仅首页显示
+  if (!activeTag || activeTag === 'all') {
+    html += `
+    <div class="hero">
+      <div class="seal-lg">五福<br>堂主</div>
+      <h1>怀鱼随笔</h1>
+      <div class="tagline">鉴古知今 · 以艺会友</div>
+      <div class="divider"></div>
+    </div>`;
+  }
+
+  // 标签筛选
+  html += '<div class="tag-filter">';
+  allTags.forEach(tag => {
+    const label = tag === 'all' ? '全部' : tag;
+    const active = (!activeTag && tag === 'all') || activeTag === tag;
+    html += `<span class="filter-btn${active ? ' active' : ''}" onclick="filterByTag('${tag}')">${label}</span>`;
+  });
+  html += '</div>';
+
+  // 文章列表
+  html += '<div class="post-list">';
+  if (filtered.length === 0) {
+    html += '<div class="empty-state"><div class="icon">📜</div><p>该分类下暂无文章</p></div>';
+  } else {
+    filtered.forEach(article => {
+      html += `
+      <article class="post-card" onclick="navigate('article/${article.id}')">
+        <div class="meta">
+          <span>${article.date}</span>
+          <span class="dot"></span>
+          <span>${article.tags[0]}</span>
+        </div>
+        <h2>${article.title}</h2>
+        <p class="excerpt">${article.excerpt}</p>
+        <div class="tags">
+          ${article.tags.map(t => `<span class="tag" onclick="event.stopPropagation();filterByTag('${t}')">${t}</span>`).join('')}
+        </div>
+      </article>`;
+    });
+  }
+  html += '</div>';
+
+  return html;
+}
+
+function renderArticle(id) {
+  const article = articles.find(a => a.id === parseInt(id));
+  if (!article) {
+    return '<div class="empty-state"><div class="icon">📜</div><p>文章未找到</p><p style="margin-top:20px;"><a href="#home" style="color:var(--gold);">返回首页</a></p></div>';
+  }
+
+  const contentHtml = marked.parse(article.content);
+
+  return `
+  <div class="article-detail">
+    <div class="back-link" onclick="navigate('home')">← 返回文章列表</div>
+    <div class="article-header">
+      <h1>${article.title}</h1>
+      <div class="article-meta">${article.date}</div>
+      <div class="article-tags">
+        ${article.tags.map(t => `<span class="tag" onclick="filterByTag('${t}')">${t}</span>`).join('')}
+      </div>
+    </div>
+    <div class="article-content">${contentHtml}</div>
+  </div>`;
+}
+
+function renderAbout() {
+  return `
+  <div class="about-page">
+    <div class="about-hero">
+      <div class="seal-xl">五福<br>堂主</div>
+      <h1>孙勇</h1>
+      <div class="sub-info">字怀鱼 · 号五福堂主 · 籍深圳</div>
+      <div class="divider" style="margin:24px auto;"></div>
+    </div>
+
+    <div class="about-card">
+      <h3>个人档案</h3>
+      <div class="info-row">
+        <span class="info-label">姓名</span>
+        <span class="info-value">孙勇</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">表字</span>
+        <span class="info-value">怀鱼</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">别号</span>
+        <span class="info-value">五福堂主</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">籍贯</span>
+        <span class="info-value">广东深圳</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">学历</span>
+        <span class="info-value">工商管理硕士（MBA）</span>
+      </div>
+    </div>
+
+    <div class="about-card">
+      <h3>身份与职务</h3>
+      <div class="info-row">
+        <span class="info-label">现任</span>
+        <span class="info-value">深圳利和艺术馆 馆长</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">领域</span>
+        <span class="info-value">金融投资 · 古玩收藏 · 青铜器鉴赏</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">专长</span>
+        <span class="info-value">资深艺术品鉴定专家</span>
+      </div>
+    </div>
+
+    <div class="about-card">
+      <h3>个人简介</h3>
+      <div class="intro-text">
+        <p>孙勇，字怀鱼，号五福堂主，广东深圳人，工商管理硕士。现任深圳利和艺术馆馆长，长期深耕金融投资与古玩收藏两大领域，是业内知名的金融投资家与古玩收藏家。</p>
+        <p>在艺术品鉴定方面造诣深厚，尤精于青铜器鉴赏，数十年来经手鉴定的青铜器数以千计，积累了丰富的实战经验。其鉴定风格严谨务实，既尊重传统眼学，又善用现代科技辅助手段，在业内享有盛誉。</p>
+        <p>同时酷爱书法艺术，数十载临池不辍，书风取法晋唐，融会贯通，以行草见长。其书法作品既有传统根基，又具个人风貌，深受藏家喜爱。</p>
+        <p>创办深圳利和艺术馆，旨在搭建一个集收藏、研究、展览、交流于一体的文化平台，推动粤港澳大湾区的艺术品收藏文化发展，以"鉴古知今、以艺会友"为宗旨，广交天下藏友。</p>
+      </div>
+    </div>
+
+    <div class="about-card">
+      <h3>联系方式</h3>
+      <div class="info-row">
+        <span class="info-label">地址</span>
+        <span class="info-value">深圳市罗湖区新秀古玩城 · 深圳利和艺术馆</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">宗旨</span>
+        <span class="info-value">鉴古知今 · 以艺会友</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderTags() {
+  const tagCount = {};
+  articles.forEach(a => {
+    a.tags.forEach(t => {
+      tagCount[t] = (tagCount[t] || 0) + 1;
+    });
+  });
+
+  let html = '<div class="about-page">';
+  html += '<h2 style="text-align:center;color:var(--ink);font-weight:normal;letter-spacing:2px;margin:40px 0 30px;">文章分类</h2>';
+  html += '<div class="tag-filter" style="justify-content:center;">';
+  for (const [tag, count] of Object.entries(tagCount)) {
+    html += `<span class="filter-btn" style="font-size:14px;" onclick="filterByTag('${tag}')">${tag}（${count}篇）</span>`;
+  }
+  html += '</div>';
+  html += '</div>';
+  return html;
+}
+
+function filterByTag(tag) {
+  if (tag === 'all') {
+    navigate('home');
+  } else {
+    navigate(`home/${tag}`);
+  }
+}
+
+// ===== 应用入口 =====
+function render() {
+  const { page, param } = getRoute();
+  const app = document.getElementById('app');
+
+  // 更新导航高亮
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.classList.remove('active');
+  });
+
+  switch (page) {
+    case 'home':
+      document.querySelector('[data-nav="home"]').classList.add('active');
+      app.innerHTML = renderHome(param || null);
+      break;
+    case 'article':
+      document.querySelector('[data-nav="home"]').classList.add('active');
+      app.innerHTML = renderArticle(param);
+      break;
+    case 'about':
+      document.querySelector('[data-nav="about"]').classList.add('active');
+      app.innerHTML = renderAbout();
+      break;
+    case 'tags':
+      document.querySelector('[data-nav="tags"]').classList.add('active');
+      app.innerHTML = renderTags();
+      break;
+    default:
+      navigate('home');
+      break;
+  }
+}
+
+// 监听hash变化
+window.addEventListener('hashchange', render);
+window.addEventListener('DOMContentLoaded', render);
+</script>
+
+</body>
+</html>
